@@ -1,0 +1,21 @@
+{
+  "name": "ai-webtv",
+  "version": "1.0.0",
+  "description": "A generative AI WebTV",
+  "main": "src/index.mts",
+  "scripts": {
+    "start": "node --loader ts-node/esm src/index.mts",
+    "test": "node --loader ts-node/esm src/test.mts",
+    "docker": "npm run docker:build && npm run docker:run",
+    "docker:build": "docker build -t  ai-webtv .",
+    "docker:run": "docker run -it -p 7860:7860 ai-webtv"
+  },
+  "author": "Julian Bilcke <julian.bilcke@huggingface.co>",
+  "license": "Apache License",
+  "dependencies": {
+    "@types/express": "^4.17.17",
+    "express": "^4.18.2",
+    "node-fetch": "^3.3.1",
+    "ts-node": "^10.9.1"
+  }
+}

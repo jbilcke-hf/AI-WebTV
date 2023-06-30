@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <title>AI WebTV</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.1.6/dist/full.css" rel="stylesheet" type="text/css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.2/iframeResizer.contentWindow.min.js"></script>
+    <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
+  </head>
+  <body>
+    <div class="w-full h-48">
+      <iframe src="/stats" width="500" height="500"></iframe>
+    </div>
+    <div>
+      <video
+        data-dashjs-player
+        autoplay
+        src="https://jbilcke-hf-media-server.hf.space/live/webtv/index.mpd"
+        controls
+        class="w-full"
+      ></video>
+    </div>
+  </body>
+</html>
