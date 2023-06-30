@@ -32,4 +32,4 @@ COPY --chown=user . $HOME/app
 
 EXPOSE 7860 1935 8000
 
-CMD [ "bash", "start.sh" ]
+CMD [ "npm", "run", "start" ]
