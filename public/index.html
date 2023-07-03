@@ -1,24 +1,29 @@
 <html>
   <head>
-    <title>AI WebTV</title>
+    <title>AI Web TV 🤗</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@3.1.6/dist/full.css" rel="stylesheet" type="text/css" />
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.2/iframeResizer.contentWindow.min.js"></script>
-    <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
+    <script src="https://cdn.bootcss.com/flv.js/1.5.0/flv.min.js"></script>
   </head>
-  <body>
-    <div class="w-full h-48">
-      <iframe src="/stats" width="500" height="500"></iframe>
+  <body class="fixed inset-0 bg-[rgb(0,0,0)] flex flex-col w-full items-center justify-center">
+    <div class="flex w-full">
+      <video id="videoElement" muted autoplay class="aspect-video w-full"></video>
     </div>
-    <div>
-      <video
-        data-dashjs-player
-        autoplay
-        src="https://jbilcke-hf-media-server.hf.space/live/webtv/index.mpd"
-        controls
-        class="w-full"
-      ></video>
-    </div>
+    <script>
+    (() => {
+      if (flvjs.isSupported()) {
+        var videoElement = document.getElementById('videoElement')
+        var flvPlayer = flvjs.createPlayer({
+          type: 'flv',
+          url: 'https://jbilcke-hf-media-server.hf.space/live/webtv.flv'
+        })
+        flvPlayer.attachMediaElement(videoElement)
+        flvPlayer.load()
+        flvPlayer.play()
+      }
+    })()
+    </script>
   </body>
 </html>
