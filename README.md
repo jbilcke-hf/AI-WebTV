@@ -10,6 +10,10 @@ app_port: 7860
 
 A generative AI WebTV, powered by Zeroscope and Hugging Face.
 
+Note: this won't work on iOS due to an apparent ban on Media Source Extensions (available on iPadOS).
+
+It should be possible however to use some other protocol or library.
+
 # Installation
 ## Building and run without Docker
 
