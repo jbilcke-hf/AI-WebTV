@@ -29,13 +29,7 @@
         player.on(mpegts.Events.ERROR, function (err) {
           console.log('got an error:', err)
           if (err.type === mpegts.ErrorTypes.NETWORK_ERROR) {
-            console.log('Network error, trying to recover immediately...')
-            setTimeout(() => {
-              // Unload the current stream
-              player.unload()
-              // Load the stream again
-              player.load()
-            }, 500)
+            console.log('Network error')
           }
         });
         player.load()
@@ -45,9 +39,10 @@
           setTimeout(() => {
             console.log('Reloading the page..')
             //Unloading and loading the source again
-            player.unload()
-            player.load()
-          }, 500)
+            // player.unload()
+            // player.load()
+            window.reload()
+          }, 1200)
         }, false);
 
         player.play()
