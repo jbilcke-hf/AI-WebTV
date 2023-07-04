@@ -56,6 +56,15 @@
             window.location.reload()
           }, 1200)
         }, false)
+
+        // Handle autoplay restrictions.
+        let promise = videoElement.play()
+        if (promise !== undefined) {
+          videoElement.addEventListener('click', function() {
+            videoElement.play()
+          })
+        }
+
         player.play()
       }
     })()
