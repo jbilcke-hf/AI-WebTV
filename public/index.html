@@ -3,20 +3,27 @@
     <title>AI Web TV 🤗</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@3.1.6/dist/full.css" rel="stylesheet" type="text/css" />
     <!--<link href="https://vjs.zencdn.net/8.3.0/video-js.css" rel="stylesheet" />-->
-    <!--<link href="https://vjs.zencdn.net/8.3.0/video-js.css" rel="stylesheet" />-->
     <script src="/mpegts.js"></script>
   </head>
   <body class="fixed inset-0 bg-[rgb(0,0,0)] flex flex-col w-full items-center justify-center">
     <div class="flex w-full">
       <video id="videoElement" muted autoplay class="aspect-video w-full"></video>
+      <!--
+        We probably want to display a nice logo or decoration somewhere
+        <img src="/hf-logo.png" class="absolute mt-2 w-[16%]" />
+      -->
     </div>
-    <script>window.HELP_IMPROVE_VIDEOJS = false;</script>
+    <script>
+      // disable analytics (we don't use VideoJS yet anyway)
+      window.HELP_IMPROVE_VIDEOJS = false
+    </script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.2/iframeResizer.contentWindow.min.js"></script>
     <!--<script src="https://vjs.zencdn.net/8.3.0/video.min.js"></script>-->
     <script>
     (() => {
+      // some devices such as the iPhone don't support MSE Live Playback
       if (mpegts.getFeatureList().mseLivePlayback) {
         var videoElement = document.getElementById('videoElement')
         var player = mpegts.createPlayer({
@@ -32,19 +39,23 @@
             console.log('Network error')
           }
         });
+
         player.load()
 
+        // due to an issue with our stream when the FFMPEG playlist ends,
+        // the stream gets interrupted for ~1sec, which causes the frontend to hangs up
+        // the following code tries to restart the page when that happens, but in the long term
+        // we should fix the issue on the server side (fix our FFMPEG bash script)
         videoElement.addEventListener('ended', function() {
-          console.log('Stream ended, trying to reload...');
+          console.log('Stream ended, trying to reload...')
           setTimeout(() => {
             console.log('Reloading the page..')
-            //Unloading and loading the source again
+            // Unloading and loading the source again isn't enough it seems
             // player.unload()
             // player.load()
             window.location.reload()
           }, 1200)
-        }, false);
-
+        }, false)
         player.play()
       }
     })()
