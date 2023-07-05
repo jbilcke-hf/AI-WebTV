@@ -8,6 +8,27 @@
   <body
     x-data="app()" x-init="init()"
     class="fixed inset-0 bg-[rgb(0,0,0)] flex flex-col w-full items-center justify-center">
+    <div
+      class="fixed w-full top-4 px-6 font-mono text-white flex items-center justify-between space-x-1"
+      style="text-shadow: 0px 0px 3px #000000">
+      
+      <div class="text-md">🤗 AI WebTV 👉 Pick a stream:
+        <template x-for="chan in channels">
+          <span
+            class="text-lg mr-2"
+            :class="chan.id === channel.id
+            ? 'font-bold'
+            : 'hover:underline opacity-60 hover:opacity-80 cursor-pointer'"
+            x-on:click="window.location = `${window.location.origin}/?channel=${chan.id}`"
+            x-text="chan.label"></span>
+        </template>
+      </div>
+      <div class="text-xs">(<a
+        class=""
+        :href="channel.modelUrl"
+        x-text="channel.model"
+        target="_blank"></a>, <span x-text="channel.resolution"></span>)</div>
+    </div>
     <div class="flex w-full">
       <video id="videoElement" muted autoplay class="aspect-video w-full"></video>
       <!--
@@ -35,8 +56,16 @@ function app() {
         model: 'cerspense/zeroscope_v2_576w',
         modelUrl: 'https://huggingface.co/cerspense/zeroscope_v2_576w',
       },
+      '2': {
+        id: '2',
+        label: '#HDTV',
+        url: 'https://jbilcke-hf-media-server.hf.space/live/webtv2.flv',
+        resolution: '1024x576',
+        model: 'cerspense/zeroscope_v2_XL',
+        modelUrl: 'https://huggingface.co/cerspense/zeroscope_v2_XL',
+      },
     },
-    defaultChannelId: '1',
+    defaultChannelId: '2',
     channel: {
     },
     init() {
