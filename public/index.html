@@ -6,6 +6,16 @@
     <script src="/mpegts.js"></script>
   </head>
   <body class="fixed inset-0 bg-[rgb(0,0,0)] flex flex-col w-full items-center justify-center">
+    <div
+      class="fixed w-full top-4 px-6 font-mono text-white flex items-center justify-between space-x-1"
+      style="text-shadow: 0px 0px 3px #000000">
+      
+      <div class="text-md">🤗 Streaming channel #1</div>
+      <div class="text-xs">(<a
+        class=""
+        href="https://huggingface.co/cerspense/zeroscope_v2_576w"
+        target="_blank">cerspense&#47;zeroscope_v2_576w</a>, 576x320)</div>
+    </div>
     <div class="flex w-full">
       <video id="videoElement" muted autoplay class="aspect-video w-full"></video>
       <!--
