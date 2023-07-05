@@ -22,7 +22,7 @@
             :class="chan.id === channel.id
             ? 'font-bold'
             : 'hover:underline opacity-60 hover:opacity-80 cursor-pointer'"
-            x-on:click="window.location = `${window.location.origin}/?channel=${chan.id}`"
+            x-on:click="window.location = `${window.location.origin}/?channel=${chan.id}&beta=true`"
             x-text="chan.label"></span>
         </template>
       </div>
