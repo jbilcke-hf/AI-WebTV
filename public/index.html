@@ -8,7 +8,10 @@
   <body
     x-data="app()" x-init="init()"
     class="fixed inset-0 bg-[rgb(0,0,0)] flex flex-col w-full items-center justify-center">
+    <div x-show="!enabled">this space has been disabled by its owner</div>
+      
     <div
+      x-show="enabled"
       class="fixed w-full z-20 top-4 px-6 font-mono text-white flex items-center justify-between space-x-1"
       style="text-shadow: 0px 0px 3px #000000">
       
@@ -47,6 +50,7 @@
     <script>
 function app() {
   return {
+    enabled: false,
     channels: {
       '1': {
         id: '1',
@@ -74,6 +78,12 @@ function app() {
       const urlParams = new URLSearchParams(window.location.search)
 
       const requestedChannelId = `${urlParams.get('channel') || ''}`
+ 
+      this.enabled = `${urlParams.get('beta') || 'false'}` === 'true'
+
+      if (!this.enabled) {
+        return
+      }
 
       const defaultChannel = this.channels[this.defaultChannelId]
       
