@@ -5,19 +5,29 @@
     <!--<link href="https://vjs.zencdn.net/8.3.0/video-js.css" rel="stylesheet" />-->
     <script src="/mpegts.js"></script>
   </head>
-  <body class="fixed inset-0 bg-[rgb(0,0,0)] flex flex-col w-full items-center justify-center">
+  <body
+    x-data="app()" x-init="init()"
+    class="fixed inset-0 bg-[rgb(0,0,0)] flex flex-col w-full items-center justify-center">
     <div
       class="fixed w-full top-4 px-6 font-mono text-white flex items-center justify-between space-x-1"
       style="text-shadow: 0px 0px 3px #000000">
       
-      <div class="text-md">🤗 Streaming channel:
-        <span class="text-lg font-bold">#1</span>
-        <!-- <span class="text-lg font-thinner hover:underline cursor-pointer mr-1 opacity-60 hover:opacity-80">#2</span> -->
+      <div class="text-md">🤗 AI WebTV 👉 Pick a stream:
+        <template x-for="chan in channels">
+          <span
+            class="text-lg mr-2"
+            :class="chan.id === channel.id
+            ? 'font-bold'
+            : 'hover:underline opacity-60 hover:opacity-80 cursor-pointer'"
+            x-on:click="window.location = `${window.location.origin}/?channel=${chan.id}`"
+            x-text="chan.label"></span>
+        </template>
       </div>
       <div class="text-xs">(<a
         class=""
-        href="https://huggingface.co/cerspense/zeroscope_v2_576w"
-        target="_blank">cerspense&#47;zeroscope_v2_576w</a>, 576x320)</div>
+        :href="channel.modelUrl"
+        x-text="channel.model"
+        target="_blank"></a>, <span x-text="channel.resolution"></span>)</div>
     </div>
     <div class="flex w-full">
       <video id="videoElement" muted autoplay class="aspect-video w-full"></video>
@@ -35,14 +45,50 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.2/iframeResizer.contentWindow.min.js"></script>
     <!--<script src="https://vjs.zencdn.net/8.3.0/video.min.js"></script>-->
     <script>
-    (() => {
+function app() {
+  return {
+    channels: {
+      '1': {
+        id: '1',
+        label: '#legacy',
+        url: 'https://jbilcke-hf-media-server.hf.space/live/webtv.flv',
+        resolution: '576x320',
+        model: 'cerspense/zeroscope_v2_576w',
+        modelUrl: 'https://huggingface.co/cerspense/zeroscope_v2_576w',
+      },
+      '2': {
+        id: '2',
+        label: '#HDTV',
+        url: 'https://jbilcke-hf-media-server.hf.space/live/webtv2.flv',
+        resolution: '1024x576',
+        model: 'cerspense/zeroscope_v2_XL',
+        modelUrl: 'https://huggingface.co/cerspense/zeroscope_v2_XL',
+      },
+    },
+    defaultChannelId: '2',
+    channel: {
+    },
+    init() {
+      console.log('initializing WebTV..')
+
+      const urlParams = new URLSearchParams(window.location.search)
+
+      const requestedChannelId = `${urlParams.get('channel') || ''}`
+
+      const defaultChannel = this.channels[this.defaultChannelId]
+      
+      this.channel = this.channels[requestedChannelId] || defaultChannel
+
+      console.log(`Selected channel: ${this.channel.label}`)
+      console.log(`Stream URL: ${this.channel.url}`)
+
       // some devices such as the iPhone don't support MSE Live Playback
       if (mpegts.getFeatureList().mseLivePlayback) {
         var videoElement = document.getElementById('videoElement')
         var player = mpegts.createPlayer({
           type: 'flv',  // could also be mpegts, m2ts, flv
             isLive: true,
-            url: 'https://jbilcke-hf-media-server.hf.space/live/webtv.flv'
+            url: this.channel.url,
         })
         player.attachMediaElement(videoElement)
 
@@ -80,7 +126,9 @@
 
         player.play()
       }
-    })()
+    }
+  }
+}
     </script>
   </body>
 </html>
