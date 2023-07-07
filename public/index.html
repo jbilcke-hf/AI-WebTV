@@ -7,12 +7,18 @@
   </head>
   <body
     x-data="app()" x-init="init()"
-    class="fixed inset-0 bg-[rgb(0,0,0)] flex flex-col w-full items-center justify-center">
+    class="fixed inset-0 bg-[rgb(0,0,0)] flex flex-col w-full items-center justify-start">
     <div x-show="!enabled">this space has been disabled by its owner</div>
       
     <div
-      x-show="enabled"
-      class="fixed w-full z-20 top-4 px-6 font-mono text-white flex items-center justify-between space-x-1"
+      x-show="enabled && showToolbar"
+      x-transition:enter="transition ease-out duration-100"
+      x-transition:enter-start="opacity-0 -translate-y-8"
+      x-transition:enter-end="opacity-100"
+      x-transition:leave="transition ease-in duration-200"
+      x-transition:leave-start="opacity-100"
+      x-transition:leave-end="opacity-0 -translate-y-8"
+      class="fixed w-full z-20 py-4 px-6 top-0 font-mono text-white flex items-center justify-between space-x-1 bg-black bg-opacity-60"
       style="text-shadow: 0px 0px 3px #000000">
       
       <div class="text-md">🤗 AI WebTV 👉 Pick a stream:
@@ -26,11 +32,33 @@
             x-text="chan.label"></span>
         </template>
       </div>
-      <div class="text-xs">(<a
-        class=""
+
+      <div class="flex justify-between space-x-4 items-center">
+      <div class="text-sm">(<a
+        class="hover:underline"
+        href="https://huggingface.co/facebook/musicgen-melody"
+        target="_blank">musicgen-melody</a> + <a
+        class="hover:underline"
         :href="channel.modelUrl"
         x-text="channel.model"
-        target="_blank"></a>, <span x-text="channel.resolution"></span>)</div>
+        target="_blank"></a>)</div>
+      
+        <div
+          x-on:click="toggleAudio()"
+          class="flex items-center justify-center text-white opacity-80 hover:opacity-100 cursor-pointer">
+          <div x-show="muted">
+            <svg aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="24px" height="24px"><path fill="currentColor" d="M215.03 71.05L126.06 160H24c-13.26 0-24 10.74-24 24v144c0 13.25 10.74 24 24 24h102.06l88.97 88.95c15.03 15.03 40.97 4.47 40.97-16.97V88.02c0-21.46-25.96-31.98-40.97-16.97zM461.64 256l45.64-45.64c6.3-6.3 6.3-16.52 0-22.82l-22.82-22.82c-6.3-6.3-16.52-6.3-22.82 0L416 210.36l-45.64-45.64c-6.3-6.3-16.52-6.3-22.82 0l-22.82 22.82c-6.3 6.3-6.3 16.52 0 22.82L370.36 256l-45.63 45.63c-6.3 6.3-6.3 16.52 0 22.82l22.82 22.82c6.3 6.3 16.52 6.3 22.82 0L416 301.64l45.64 45.64c6.3 6.3 16.52 6.3 22.82 0l22.82-22.82c6.3-6.3 6.3-16.52 0-22.82L461.64 256z" class=""></path></svg>
+          </div>
+          <div x-show="!muted">
+            <svg aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512" width="24px" height="24px"><path fill="currentColor" d="M215.03 71.05L126.06 160H24c-13.26 0-24 10.74-24 24v144c0 13.25 10.74 24 24 24h102.06l88.97 88.95c15.03 15.03 40.97 4.47 40.97-16.97V88.02c0-21.46-25.96-31.98-40.97-16.97zM480 256c0-63.53-32.06-121.94-85.77-156.24-11.19-7.14-26.03-3.82-33.12 7.46s-3.78 26.21 7.41 33.36C408.27 165.97 432 209.11 432 256s-23.73 90.03-63.48 115.42c-11.19 7.14-14.5 22.07-7.41 33.36 6.51 10.36 21.12 15.14 33.12 7.46C447.94 377.94 480 319.53 480 256zm-141.77-76.87c-11.58-6.33-26.19-2.16-32.61 9.45-6.39 11.61-2.16 26.2 9.45 32.61C327.98 228.28 336 241.63 336 256c0 14.38-8.02 27.72-20.92 34.81-11.61 6.41-15.84 21-9.45 32.61 6.43 11.66 21.05 15.8 32.61 9.45 28.23-15.55 45.77-45 45.77-76.88s-17.54-61.32-45.78-76.86z" class=""></path></svg>
+          </div>
+        </div>
+        <div
+          x-on:click="fullscreen()"
+          class="text-white hover:text-white opacity-80 hover:opacity-100 cursor-pointer">
+          <?xml version="1.0" ?><svg version="1.1" viewBox="0 0 14 14" width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink"><title/><desc/><defs/><g fill="none" fill-rule="evenodd" id="Page-1" stroke="none" stroke-width="1"><g fill="currentColor" id="Core" transform="translate(-215.000000, -257.000000)"><g id="fullscreen" transform="translate(215.000000, 257.000000)"><path d="M2,9 L0,9 L0,14 L5,14 L5,12 L2,12 L2,9 L2,9 Z M0,5 L2,5 L2,2 L5,2 L5,0 L0,0 L0,5 L0,5 Z M12,12 L9,12 L9,14 L14,14 L14,9 L12,9 L12,12 L12,12 Z M9,0 L9,2 L12,2 L12,5 L14,5 L14,0 L9,0 L9,0 Z" id="Shape"/></g></g></g></svg>
+        </div>
+      </div>
     </div>
     <div class="flex w-full">
       <video id="videoElement" muted autoplay class="aspect-video w-full"></video>
@@ -48,6 +76,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.2/iframeResizer.contentWindow.min.js"></script>
     <!--<script src="https://vjs.zencdn.net/8.3.0/video.min.js"></script>-->
     <script>
+
 function app() {
   return {
     enabled: false,
@@ -69,10 +98,47 @@ function app() {
         modelUrl: 'https://huggingface.co/cerspense/zeroscope_v2_XL',
       },
     },
-    defaultChannelId: '2',
+    showToolbar: true,
+    muted: true,
+    initialized: false,
+    activityTimeout: null,
+    defaultChannelId: '1',
+    video: null,
     channel: {
     },
+    wakeUp() {
+      this.showToolbar = true
+      clearTimeout(this.activityTimeout)
+      this.activityTimeout = setTimeout(() => {
+        this.showToolbar = false
+      }, 1500);
+    },
+    toggleAudio() {
+      if (this.video.muted) {    
+        this.video.muted = false
+       this.muted = false
+      } else {
+        this.video.muted = true
+        this.muted = true
+      }
+    },
+    fullscreen() {
+      if (this.video.requestFullscreen) {
+        this.video.requestFullscreen();
+      } else if (this.video.mozRequestFullScreen) {
+        this.video.mozRequestFullScreen();
+      } else if (this.video.webkitRequestFullscreen) {
+        this.video.webkitRequestFullscreen();
+      } else if (this.video.msRequestFullscreen) {
+        this.video.msRequestFullscreen();
+      }
+    },
     init() {
+      if (this.initialized) {
+        console.log("already initialized")
+        return
+      }
+      this.initialized = true
       console.log('initializing WebTV..')
 
       const urlParams = new URLSearchParams(window.location.search)
@@ -85,6 +151,8 @@ function app() {
         return
       }
 
+      this.video = document.getElementById('videoElement')
+
       const defaultChannel = this.channels[this.defaultChannelId]
       
       this.channel = this.channels[requestedChannelId] || defaultChannel
@@ -92,15 +160,44 @@ function app() {
       console.log(`Selected channel: ${this.channel.label}`)
       console.log(`Stream URL: ${this.channel.url}`)
 
+      
+      const handleActivity = () => {
+        this.wakeUp()
+      }
+      handleActivity()
+
+      document.addEventListener("touchstart", handleActivity)
+      document.addEventListener("touchmove", handleActivity)
+      document.addEventListener("click", handleActivity)
+      document.addEventListener("mousemove", handleActivity)
+
+      // detect mute/unmute events
+      this.video.addEventListener("mute", () => {
+        this.muted = true
+      }) 
+      this.video.addEventListener("unmute", () => {
+        this.muted = false
+      }) 
+      
+      // when we move outside the video, we always hide the toolbar
+      document.addEventListener("mouseleave", () => {
+        clearTimeout(this.activityTimeout)
+        this.showToolbar = false
+      })
+
+      // as a bonus, we also allow fullscreen on double click
+      this.video.addEventListener('dblclick', () => {
+        this.fullscreen()
+      })
+
       // some devices such as the iPhone don't support MSE Live Playback
       if (mpegts.getFeatureList().mseLivePlayback) {
-        var videoElement = document.getElementById('videoElement')
         var player = mpegts.createPlayer({
           type: 'flv',  // could also be mpegts, m2ts, flv
             isLive: true,
             url: this.channel.url,
         })
-        player.attachMediaElement(videoElement)
+        player.attachMediaElement(this.video)
 
         player.on(mpegts.Events.ERROR, function (err) {
           console.log('got an error:', err)
@@ -115,7 +212,7 @@ function app() {
         // the stream gets interrupted for ~1sec, which causes the frontend to hangs up
         // the following code tries to restart the page when that happens, but in the long term
         // we should fix the issue on the server side (fix our FFMPEG bash script)
-        videoElement.addEventListener('ended', function() {
+        this.video.addEventListener('ended', function() {
           console.log('Stream ended, trying to reload...')
           setTimeout(() => {
             console.log('Reloading the page..')
@@ -127,10 +224,10 @@ function app() {
         }, false)
 
         // Handle autoplay restrictions.
-        let promise = videoElement.play()
+        let promise = this.video.play()
         if (promise !== undefined) {
-          videoElement.addEventListener('click', function() {
-            videoElement.play()
+          this.video.addEventListener('click', function() {
+            this.video.play()
           })
         }
 
