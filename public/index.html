@@ -142,9 +142,9 @@ function app() {
         const res = await fetch('/stats')
         audience = await res.json()
       } catch (err) {
-        console.log('failed to check the audience, something is wrong')
+        //console.log('failed to check the audience, something is wrong')
       }
-      console.log('audience:', audience)
+     //  console.log('audience:', audience)
         
       this.channels = Object.entries(this.channels).reduce((acc, [channel, data]) => ({
         ...acc,
