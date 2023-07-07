@@ -8,7 +8,7 @@
   <body
     x-data="app()" x-init="init()"
     class="fixed inset-0 bg-[rgb(0,0,0)] flex flex-col w-full items-center justify-start">
-    <div x-show="!enabled">this space has been disabled by its owner</div>
+    <div x-show="!enabled">Loading WebTV..</div>
       
     <div
       x-show="enabled && showToolbar"
@@ -144,8 +144,9 @@ function app() {
       const urlParams = new URLSearchParams(window.location.search)
 
       const requestedChannelId = `${urlParams.get('channel') || ''}`
- 
-      this.enabled = `${urlParams.get('beta') || 'false'}` === 'true'
+
+      this.enabled = true
+      // this.enabled = `${urlParams.get('beta') || 'false'}` === 'true'
 
       if (!this.enabled) {
         return
