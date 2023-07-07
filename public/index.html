@@ -21,36 +21,46 @@
       class="fixed w-full z-20 py-4 px-6 top-0 font-mono text-white flex items-center justify-between space-x-1 bg-black bg-opacity-60"
       style="text-shadow: 0px 0px 3px #000000">
       
-      <div class="text-md">🤗 AI WebTV 👉 Pick a stream:
+      <div class="flex text-xl space-x-2">
+        <div class="text-xl">🤗 AI WebTV</div>
+        <div class="text-md">👉 Pick a stream:</div>
         <template x-for="chan in channels">
-          <span
-            class="text-lg mr-2"
+          <div
+            class="text-xl mr-2"
             :class="chan.id === channel.id
             ? 'font-bold'
             : 'hover:underline opacity-60 hover:opacity-80 cursor-pointer'"
             x-on:click="window.location = `${window.location.origin}/?channel=${chan.id}&beta=true`"
-            x-text="chan.label"></span>
+            x-text="chan.label"></div>
         </template>
       </div>
 
-      <div class="flex justify-between space-x-4 items-center">
-      <div class="text-sm">(<a
-        class="hover:underline"
-        href="https://huggingface.co/facebook/musicgen-melody"
-        target="_blank">musicgen-melody</a> + <a
-        class="hover:underline"
-        :href="channel.modelUrl"
-        x-text="channel.model"
-        target="_blank"></a>)</div>
+      <div class="flex justify-between space-x-6 items-center">
+      
+        <div class="flex items-center justify-center text-white opacity-100 space-x-2">
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 640 512"><path fill="currentColor" d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM609.3 512H471.4c5.4-9.4 8.6-20.3 8.6-32v-8c0-60.7-27.1-115.2-69.8-151.8c2.4-.1 4.7-.2 7.1-.2h61.4C567.8 320 640 392.2 640 481.3c0 17-13.8 30.7-30.7 30.7zM432 256c-31 0-59-12.6-79.3-32.9C372.4 196.5 384 163.6 384 128c0-26.8-6.6-52.1-18.3-74.3C384.3 40.1 407.2 32 432 32c61.9 0 112 50.1 112 112s-50.1 112-112 112z"/></svg>
+          </div>
+          <div x-text="channel.audience"></div>
+        </div>
+
+        <div class="text-sm">(<a
+          class="hover:underline"
+          href="https://huggingface.co/facebook/musicgen-melody"
+          target="_blank">musicgen-melody</a> + <a
+          class="hover:underline"
+          :href="channel.modelUrl"
+          x-text="channel.model"
+          target="_blank"></a>)</div>
       
         <div
           x-on:click="toggleAudio()"
           class="flex items-center justify-center text-white opacity-80 hover:opacity-100 cursor-pointer">
           <div x-show="muted">
-            <svg aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="24px" height="24px"><path fill="currentColor" d="M215.03 71.05L126.06 160H24c-13.26 0-24 10.74-24 24v144c0 13.25 10.74 24 24 24h102.06l88.97 88.95c15.03 15.03 40.97 4.47 40.97-16.97V88.02c0-21.46-25.96-31.98-40.97-16.97zM461.64 256l45.64-45.64c6.3-6.3 6.3-16.52 0-22.82l-22.82-22.82c-6.3-6.3-16.52-6.3-22.82 0L416 210.36l-45.64-45.64c-6.3-6.3-16.52-6.3-22.82 0l-22.82 22.82c-6.3 6.3-6.3 16.52 0 22.82L370.36 256l-45.63 45.63c-6.3 6.3-6.3 16.52 0 22.82l22.82 22.82c6.3 6.3 16.52 6.3 22.82 0L416 301.64l45.64 45.64c6.3 6.3 16.52 6.3 22.82 0l22.82-22.82c6.3-6.3 6.3-16.52 0-22.82L461.64 256z" class=""></path></svg>
+            <svg aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="32px" height="32px"><path fill="currentColor" d="M215.03 71.05L126.06 160H24c-13.26 0-24 10.74-24 24v144c0 13.25 10.74 24 24 24h102.06l88.97 88.95c15.03 15.03 40.97 4.47 40.97-16.97V88.02c0-21.46-25.96-31.98-40.97-16.97zM461.64 256l45.64-45.64c6.3-6.3 6.3-16.52 0-22.82l-22.82-22.82c-6.3-6.3-16.52-6.3-22.82 0L416 210.36l-45.64-45.64c-6.3-6.3-16.52-6.3-22.82 0l-22.82 22.82c-6.3 6.3-6.3 16.52 0 22.82L370.36 256l-45.63 45.63c-6.3 6.3-6.3 16.52 0 22.82l22.82 22.82c6.3 6.3 16.52 6.3 22.82 0L416 301.64l45.64 45.64c6.3 6.3 16.52 6.3 22.82 0l22.82-22.82c6.3-6.3 6.3-16.52 0-22.82L461.64 256z" class=""></path></svg>
           </div>
           <div x-show="!muted">
-            <svg aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512" width="24px" height="24px"><path fill="currentColor" d="M215.03 71.05L126.06 160H24c-13.26 0-24 10.74-24 24v144c0 13.25 10.74 24 24 24h102.06l88.97 88.95c15.03 15.03 40.97 4.47 40.97-16.97V88.02c0-21.46-25.96-31.98-40.97-16.97zM480 256c0-63.53-32.06-121.94-85.77-156.24-11.19-7.14-26.03-3.82-33.12 7.46s-3.78 26.21 7.41 33.36C408.27 165.97 432 209.11 432 256s-23.73 90.03-63.48 115.42c-11.19 7.14-14.5 22.07-7.41 33.36 6.51 10.36 21.12 15.14 33.12 7.46C447.94 377.94 480 319.53 480 256zm-141.77-76.87c-11.58-6.33-26.19-2.16-32.61 9.45-6.39 11.61-2.16 26.2 9.45 32.61C327.98 228.28 336 241.63 336 256c0 14.38-8.02 27.72-20.92 34.81-11.61 6.41-15.84 21-9.45 32.61 6.43 11.66 21.05 15.8 32.61 9.45 28.23-15.55 45.77-45 45.77-76.88s-17.54-61.32-45.78-76.86z" class=""></path></svg>
+            <svg aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512" width="32px" height="32px"><path fill="currentColor" d="M215.03 71.05L126.06 160H24c-13.26 0-24 10.74-24 24v144c0 13.25 10.74 24 24 24h102.06l88.97 88.95c15.03 15.03 40.97 4.47 40.97-16.97V88.02c0-21.46-25.96-31.98-40.97-16.97zM480 256c0-63.53-32.06-121.94-85.77-156.24-11.19-7.14-26.03-3.82-33.12 7.46s-3.78 26.21 7.41 33.36C408.27 165.97 432 209.11 432 256s-23.73 90.03-63.48 115.42c-11.19 7.14-14.5 22.07-7.41 33.36 6.51 10.36 21.12 15.14 33.12 7.46C447.94 377.94 480 319.53 480 256zm-141.77-76.87c-11.58-6.33-26.19-2.16-32.61 9.45-6.39 11.61-2.16 26.2 9.45 32.61C327.98 228.28 336 241.63 336 256c0 14.38-8.02 27.72-20.92 34.81-11.61 6.41-15.84 21-9.45 32.61 6.43 11.66 21.05 15.8 32.61 9.45 28.23-15.55 45.77-45 45.77-76.88s-17.54-61.32-45.78-76.86z" class=""></path></svg>
           </div>
         </div>
         <div
@@ -81,20 +91,24 @@ function app() {
   return {
     enabled: false,
     channels: {
-      '1': {
-        id: '1',
+      legacy: {
+        id: 'legacy',
         label: '#legacy',
-        url: 'https://jbilcke-hf-media-server.hf.space/live/webtv.flv',
+        audience: 0,
+        online: false,
+        url: 'https://jbilcke-hf-media-server.hf.space/live/legacy.flv',
         resolution: '576x320',
-        model: 'cerspense/zeroscope_v2_576w',
+        model: 'zeroscope_v2_576w',
         modelUrl: 'https://huggingface.co/cerspense/zeroscope_v2_576w',
       },
-      '2': {
-        id: '2',
+      hdtv: {
+        id: 'hdtv',
         label: '#HDTV',
-        url: 'https://jbilcke-hf-media-server.hf.space/live/webtv2.flv',
+        audience: 0,
+        online: false,
+        url: 'https://jbilcke-hf-media-server.hf.space/live/hdtv.flv',
         resolution: '1024x576',
-        model: 'cerspense/zeroscope_v2_XL',
+        model: 'zeroscope_v2_XL',
         modelUrl: 'https://huggingface.co/cerspense/zeroscope_v2_XL',
       },
     },
@@ -102,7 +116,7 @@ function app() {
     muted: true,
     initialized: false,
     activityTimeout: null,
-    defaultChannelId: '1',
+    defaultChannelId: 'hdtv',
     video: null,
     channel: {
     },
@@ -121,6 +135,24 @@ function app() {
         this.video.muted = true
         this.muted = true
       }
+    },
+    async checkAudience() {
+      let audience = {}
+      try {
+        const res = await fetch('/stats')
+        audience = await res.json()
+      } catch (err) {
+        console.log('failed to check the audience, something is wrong')
+      }
+      console.log('audience:', audience)
+        
+      this.channels = Object.entries(this.channels).reduce((acc, [channel, data]) => ({
+        ...acc,
+        [channel]: {
+          ...data,
+          audience: audience[channel] || 0
+        } 
+      }))
     },
     fullscreen() {
       if (this.video.requestFullscreen) {
@@ -171,6 +203,10 @@ function app() {
       document.addEventListener("touchmove", handleActivity)
       document.addEventListener("click", handleActivity)
       document.addEventListener("mousemove", handleActivity)
+
+      setInterval(() => {
+        this.checkAudience()
+      }, 2000)
 
       // detect mute/unmute events
       this.video.addEventListener("mute", () => {
