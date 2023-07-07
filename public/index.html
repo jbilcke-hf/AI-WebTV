@@ -142,17 +142,21 @@ function app() {
         const res = await fetch('/stats')
         audience = await res.json()
       } catch (err) {
-        //console.log('failed to check the audience, something is wrong')
+        console.log('failed to check the audience, something is wrong')
       }
-     //  console.log('audience:', audience)
-        
-      this.channels = Object.entries(this.channels).reduce((acc, [channel, data]) => ({
+
+      window.DEBUGME = Object.entries(this.channels)
+      this.channels = Object.entries(this.channels).reduce((acc, [channel, data]) => ((console.log('debug:', {
+          ...data,
+          audience: audience[channel] || 0
+        } ), {
         ...acc,
         [channel]: {
           ...data,
           audience: audience[channel] || 0
         } 
-      }))
+      })), {})
+      this.channel = this.channels[this.channel.id]
     },
     fullscreen() {
       if (this.video.requestFullscreen) {
@@ -204,6 +208,7 @@ function app() {
       document.addEventListener("click", handleActivity)
       document.addEventListener("mousemove", handleActivity)
 
+      this.checkAudience()
       setInterval(() => {
         this.checkAudience()
       }, 2000)
