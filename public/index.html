@@ -94,21 +94,25 @@ function app() {
   return {
     enabled: false,
     channels: {
+      /*
       legacy: {
         id: 'legacy',
-        label: '#legacy',
+        label: '#older',
         audience: 0,
         online: false,
+        visible: false,
         url: 'https://jbilcke-hf-media-server.hf.space/live/legacy.flv',
         resolution: '576x320',
         model: 'zeroscope_v2_576w',
         modelUrl: 'https://huggingface.co/cerspense/zeroscope_v2_576w',
       },
+      */
       hdtv: {
         id: 'hdtv',
-        label: '#HDTV',
+        label: '#old',
         audience: 0,
         online: false,
+        visible: true,
         url: 'https://jbilcke-hf-media-server.hf.space/live/hdtv.flv',
         resolution: '1024x576_8FPS',
         model: 'zeroscope_v2_XL',
@@ -116,9 +120,10 @@ function app() {
       },
       smooth: {
         id: 'smooth',
-        label: '#next⌛',
+        label: '#beta⌛',
         audience: 0,
         online: false,
+        visible: true,
         url: 'https://jbilcke-hf-media-server.hf.space/live/smooth.flv',
         resolution: '1024x576_24FPS',
         model: 'zeroscope_v2_XL',
@@ -129,7 +134,7 @@ function app() {
     muted: true,
     initialized: false,
     activityTimeout: null,
-    defaultChannelId: 'hdtv',
+    defaultChannelId: 'smooth',
     video: null,
     channel: {
     },
