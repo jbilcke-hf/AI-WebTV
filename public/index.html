@@ -131,7 +131,6 @@ function app() {
         model: 'zeroscope_v2_XL',
         modelUrl: 'https://huggingface.co/cerspense/zeroscope_v2_XL',
       },
-      /*
       comedy: {
         id: 'comedy',
         label: '#comedy',
@@ -143,7 +142,17 @@ function app() {
         model: 'zeroscope_v2_XL',
         modelUrl: 'https://huggingface.co/cerspense/zeroscope_v2_XL',
       },
-      */
+      documentary: {
+        id: 'documentary',
+        label: '#documentary',
+        audience: 0,
+        online: false,
+        visible: true,
+        url: 'https://jbilcke-hf-media-server.hf.space/live/documentary.flv',
+        resolution: '1024x576_24FPS',
+        model: 'zeroscope_v2_XL',
+        modelUrl: 'https://huggingface.co/cerspense/zeroscope_v2_XL',
+      },
     },
     showToolbar: true,
     muted: true,
