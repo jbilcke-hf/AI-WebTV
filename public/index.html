@@ -210,7 +210,7 @@ function app() {
 
       const urlParams = new URLSearchParams(window.location.search)
 
-      const requestedChannelId = `${urlParams.get('channel') || ''}`
+      const requestedChannelId = `${urlParams.get('channel') || 'random'}`
 
       this.enabled = true
       // this.enabled = `${urlParams.get('beta') || 'false'}` === 'true'
