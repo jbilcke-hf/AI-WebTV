@@ -4,7 +4,7 @@ emoji: 🔮
 colorFrom: purple
 colorTo: white
 sdk: docker
-pinned: false
+pinned: true
 app_port: 7860
 ---
 
